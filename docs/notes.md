@@ -24,14 +24,25 @@ Since we may require all of the organization / location specific data, we may ne
 
 Product / location details can either be stored in a local database (default) or exposed through an external service. Will need a plugin model to support these services to normalize the data to a format that the system can understand.
 
+We may want a simple store map showing the locations of the aisles / departments
+May use gps for this we well depending on how well we can pinpoint the user.
+This would involve the map to be aligned with the gps coordinates.
+ - Will probably need an admin page on the application to help with this.
+   - using the current gps signal, point on the map where you are.  The go to the opposite side of the store and do the same.  Knowing the size of the store we should be able to pinpoint this fairly well. This could also scale the map as well.  More points means better accuracy.
+ - departments could be outlined to be able to show users where to go.
+Since this feature requires alot of setup, it would be optional.  Would be very nice though for large stores.
+
 Architecture
 ----------------------
 
 web service
- - includes a websockets hub for notifications
+ - main source of data for the applications (both client and server side)
 
 queuing service
  - messages are served from here
+
+notification service
+ - sends out push notifications and potentially hosts the websockets
 
 datebase
  - probably going with mongo
@@ -63,5 +74,12 @@ will have to figure out where in the store the customer is
  - maybe take a picture using the front camera so the sales associate can locate recognize the customer.
 
 
-Server
+Server - Admin Page
 ----------------------
+User can create their own organization / location / departments
+associates are then created and added to the location and/or department
+stats are available at the organization, location, and department levels to show things like
+ - total number of customers helped
+ - avgerage sla of 'help requested' customers
+ - number of product searches
+ - number of product searches that evolved into 'help requested'
